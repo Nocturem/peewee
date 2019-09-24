@@ -1030,6 +1030,12 @@ class CTE(_HashableSource, Source):
         query._cte_list = ()
         super(CTE, self).__init__(alias=name)
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        return None
+
     def select_from(self, *columns):
         if not columns:
             raise ValueError('select_from() must specify one or more columns '
@@ -1247,6 +1253,12 @@ class Alias(WrappedNode):
 
     def __hash__(self):
         return hash(self._alias)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        return None
 
     def alias(self, alias=None):
         if alias is None:
